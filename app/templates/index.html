@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Actividades</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Agenda de Actividades</h1>
+        <!-- Formulario -->
+        <form action="{{ url_for('agregar') }}" method="POST" class="form-actividad">
+            <div class="form-group">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" placeholder="Ej. Tarea de IA" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion" name="descripcion" placeholder="Ej. Investigar sobre Flask">
+            </div>
+            <div class="form-group">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" required>
+            </div>
+            <button type="submit" class="btn btn-guardar">Guardar actividad</button>
+        </form>
+        <!-- Tabla -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for act in actividades %}
+                <tr>
+                    <td>{{ act['id'] }}</td>
+                    <td>{{ act['titulo'] }}</td>
+                    <td>{{ act['fecha'] }}</td>
+                    <td>
+                        {% if act['completada'] == 1 %}
+                            <span class="estado completada">Completada</span>
+                        {% else %}
+                            <span class="estado pendiente">Pendiente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('editar', id=act['id']) }}" class="btn btn-editar">Editar</a>
+                        <a href="{{ url_for('eliminar', id=act['id']) }}" class="btn btn-eliminar" onclick="return confirm('¿Seguro de eliminar esta actividad?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No hay actividades registradas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

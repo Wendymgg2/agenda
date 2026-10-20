@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Actividad</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Actividad</h1>
+        <form action="{{ url_for('editar', id=actividad['id']) }}" method="POST" class="form-actividad">
+            <div class="form-group">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" value="{{ actividad['titulo'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion" name="descripcion" value="{{ actividad['descripcion'] }}">
+            </div>
+            <div class="form-group">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" value="{{ actividad['fecha'] }}" required>
+            </div>
+            <div class="form-group checkbox-group">
+                <label>
+                    <input type="checkbox" name="completada" {% if actividad['completada'] == 1 %}checked{% endif %}>
+                    Marcar como completada
+                </label>
+            </div>
+            <button type="submit" class="btn btn-guardar">Actualizar actividad</button>
+            <a href="{{ url_for('inicio') }}" class="btn btn-cancelar">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
